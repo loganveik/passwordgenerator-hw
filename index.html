@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <title>Password Generator</title>
+  </head>
+  
+  <body>
+      <div class="card bg-transparent" style="width: 18rem;">
+          <div class="card-body rounded">
+            <h4 class="card-title">Password Generator</h4>
+              <textarea
+                readonly
+                id="password"
+                placeholder=""
+                aria-label="">
+              </textarea>
+            <button type="button" class="btn mt-2" id="generate">Generate Password</button>
+          </div>
+      </div>
+      <script>
+            const special = [" ","!","\"","#","$","%","&",'\'',"(",")","*","+",",","-",".","/",":",";","<","=",">","?","@","[","]","^","_","\\","`","{","|","}","~"];
+            const number = ["1","2","3","4","5","6","7","8","9","0"];
+            const lower = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+            const upper = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+
+            function userData(){
+                let length = prompt("how many characters long? Must be between 8-128.");
+                length = parseInt(length);
+                if(length < 8){
+                alert("number must be between 8-128!!");
+                }
+                if(length > 128){
+                alert("number must be between 8-128!!");
+                }
+                const userSpecial = confirm("click 'OK' if you want special characters");
+                const userNumber = confirm("click 'OK' if you want numbers");
+                const userLower = confirm("click 'OK' if you want lowercase letters");
+                const userUpper = confirm("click 'OK' if you want uppercase letters");
+                
+                if(userSpecial === false && userNumber === false && userLower === false && userUpper === false){
+                alert("you have to pick at least 1 character type!");
+                }
+                const passwordOptions = {length: length, userSpecial: userSpecial, userNumber: userNumber, userLower: userLower, userUpper: userUpper};
+                
+                return passwordOptions;
+            }; 
+            
+            function getRandom(arr) {
+                const randIndex = Math.floor(Math.random() * arr.length);
+                const randElement = arr[randIndex];
+
+                return randElement;
+            };
+
+            function generate() {
+                const options = userData();
+                const result = [];
+                let possibleCharacters = [];
+                const guaranteedCharacters = [];
+                if (options.userSpecial) {
+                    possibleCharacters = possibleCharacters.concat(special);
+                    guaranteedCharacters.push(getRandom(special));
+                }
+                if (options.userNumber) {
+                    possibleCharacters = possibleCharacters.concat(number);
+                    guaranteedCharacters.push(getRandom(number));
+                }
+                if (options.userLower) {
+                    possibleCharacters = possibleCharacters.concat(lower);
+                    guaranteedCharacters.push(getRandom(lower));
+                }
+                if (options.userUpper) {
+                    possibleCharacters = possibleCharacters.concat(upper);
+                    guaranteedCharacters.push(getRandom(upper));
+                }
+                for (let i = 0; i < options.length; i++) {
+                    const possibleCharacter = getRandom(possibleCharacters);
+
+                    result.push(possibleCharacter);
+                }
+                for (let i = 0; i < guaranteedCharacters.length; i++) {
+                    result[i] = guaranteedCharacters[i];
+                }
+
+                return result.join('');
+            };
+
+            const generateBtn = document.querySelector('#generate');
+
+            function write() {
+                const password = generate();
+                const passwordText = document.querySelector('#password');
+
+                passwordText.value = password;
+                console.log("Your password: " + password);
+            };
+            
+            generateBtn.addEventListener('click', write);
+
+        </script>
+    </body>
+</html>
