@@ -4,16 +4,22 @@
 }
 body{
     background-image: url("https://miro.medium.com/max/3000/1*9Cqyu3Lx4BKHUZShGe5cuQ.jpeg");
+    background-size: 100% 100%;
+    background-attachment: fixed;
 }
 h4,p{
     color: chartreuse;
 }
 .btn{
     background-color: chartreuse;
-    border-color: white;
+    /* border-color: white; */
 }
 .card{
     margin: auto;
     margin-top: 150px;
     border-color: chartreuse;
+}
+
+#generate:hover{
+    color: white;
 }
